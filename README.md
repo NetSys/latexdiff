@@ -7,6 +7,7 @@ based on (or copied wholesale) from what Brighten and Ankit at UIUC use (this is
 much harder).
 
 Steps to use:
+
 1. Copy files in bin/ to somewhere on your PATH.
 2. Copy files in repo-files to you repository. Open putsvn.sh and change the second line to use the appropriate filename.
 3. Run putsvn.sh, it will generate a new file flatpaper.tex, svn add flatpaper.tex, and run putsvn.sh again.
