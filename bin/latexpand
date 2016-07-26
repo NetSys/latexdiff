@@ -85,7 +85,8 @@ sub process_file
 
 sub process_line
 {
-    my ($_, $prefix) = @_;
+    my ($filename, $prefix) = @_;
+    $_ = $filename;
     unless ($keep_comments) {
         if ($empty_comments) {
             s/^%.*$/%/;
@@ -127,7 +128,7 @@ sub process_line
     if ($expand_usepackage) {
         # Don't bother with before and after text, we just require the
         # usepackage to be alone on its line.
-        if (my ($package_name) = /^\s*\\usepackage{([^}]*)}\s*$/) {
+        if (my ($package_name) = /^\s*\\usepackage[{]([^}]*)[}]\s*$/) {
             my $full = find_file($package_name . ".sty", $TEXINPUTS);
             if ($full) {
                 say $prefix . "Found package file: $full\n";
@@ -140,7 +141,7 @@ sub process_line
     }
     if ($expand_bbl) {
         if (my ($before, $bib_name, $after)
-             = /^(.*)\\bibliography{([^}]*)}(.*)$/) {
+             = /^(.*)\\bibliography[{]([^}]*)[}](.*)$/) {
             # The BBL file is not necessarily $bib_name.
             # Take it from the command-line.
             print $before . $nl;
@@ -151,7 +152,7 @@ sub process_line
         }
     }
     if ($show_graphics) {
-        if (/\\includegraphics{([^}]*)}/) {
+        if (/\\includegraphics[{]([^}]*)[}]/) {
             my $full = find_tex_file($1, $graphics_extensions);
             say $prefix . "needs graphics file: ";
             print STDERR "$full\n";
